@@ -10,7 +10,6 @@ namespace DataAccess.Concrete.InMemory
     public class InMemoryCarDal : ICarDal
     {
         private List<Car> _cars;
-
         public InMemoryCarDal()
         {
             _cars = new List<Car>
@@ -21,16 +20,22 @@ namespace DataAccess.Concrete.InMemory
                 new Car{Id = 4,BrandId = 2,ColorId = 3,DailyPrice = 350,ModelYear = 2019,Description = "Abs, Yolcu Airbag,21 Yaş Üstü,Ehliyet Yaşı 2 ve üzeri"},
                 new Car{Id = 5,BrandId = 2,ColorId = 3,DailyPrice = 400,ModelYear = 2019,Description = "Abs, Yolcu Airbag,25 Yaş Üstü,Ehliyet Yaşı 2 ve üzeri"},
                 new Car{Id = 6,BrandId = 3,ColorId = 5,DailyPrice = 200,ModelYear = 2015,Description = "Abs, Yolcu Airbag,30 Yaş Üstü,Ehliyet Yaşı 1 ve üzeri"}
-        };
+            };
         }
         public void Add(Car car)
         {
-           _cars.Add(car);
+            _cars.Add(car);
         }
 
         public void Delete(Car car)
         {
             Car carToDelete = _cars.SingleOrDefault(x => x.Id == car.Id);
+            _cars.Remove(carToDelete);
+        }
+
+        public void DeleteById(int carId)
+        {
+            Car carToDelete = _cars.SingleOrDefault(x => x.Id == carId);
             _cars.Remove(carToDelete);
         }
 
@@ -40,9 +45,9 @@ namespace DataAccess.Concrete.InMemory
         }
 
 
-        public List<Car> GetById(int carId)
+        public Car GetById(int carId)
         {
-            return _cars.Where(x => x.Id==carId).ToList();
+            return _cars.SingleOrDefault(x => x.Id == carId);
         }
 
         public void Update(Car car)
@@ -50,7 +55,7 @@ namespace DataAccess.Concrete.InMemory
             Car carToUpdate = _cars.SingleOrDefault(x => x.Id == car.Id);
             carToUpdate.DailyPrice = car.DailyPrice;
             carToUpdate.Description = car.Description;
-            
+
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Business.Concrete;
 using System;
+using System.Linq;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 
 namespace ConsolUI
 {
@@ -12,8 +14,11 @@ namespace ConsolUI
 
             foreach (var car in carManager.GetAll())
             {
-                Console.WriteLine("Model : "+car.ModelYear + " Açıklama : "+car.Description+" "+" Fiyat :"+car.DailyPrice);
+                Console.WriteLine("Model : " + car.ModelYear + " Açıklama : " + car.Description + " " + " Fiyat :" + car.DailyPrice);
             }
+
+
+
         }
     }
 }
