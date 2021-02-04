@@ -17,18 +17,35 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        public void Add(Car car)
+        {
+            if (car.Description.Length >= 2 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+                Console.WriteLine($"Açıklama : {car.Description} > Günlük Ücret : {car.DailyPrice}> Model yılı :{car.ModelYear}");
+            }
+            else
+            {
+                throw new Exception("Günlük ücret 0 dan büyük olmalı ve açıklama minimum 2 karakter olmalıdır.");
+            }
+
+        }
+
         public List<Car> GetAll()
         {
             return _carDal.GetAll();
         }
 
-        public void Add(Car car)
+
+        public List<Car> GetCarsByBrandId(int id)
         {
-            if (car.ModelYear < 2000)
-            {
-                throw new Exception("Araç yılı 2000'den küçük olamaz!");
-            }
-            _carDal.Add(car);
+            return _carDal.GetAll(x => x.BrandId == id);
+        }
+
+
+        public List<Car> GetCarsByColorId(int id)
+        {
+            return _carDal.GetAll(x => x.ColorId == id);
         }
     }
 }
