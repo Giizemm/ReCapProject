@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Entities.Abstract;
+using Core.Entities;
 
 namespace Entities.Concrete
 {
-   public class Car:IEntity
+    public class Car : IEntity
     {
         public int Id { get; set; }
         public int BrandId { get; set; }
@@ -13,6 +13,6 @@ namespace Entities.Concrete
         public int ModelYear { get; set; }
         public int DailyPrice { get; set; }
         public string Description { get; set; }
-        
+
     }
 }
