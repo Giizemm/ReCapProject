@@ -13,51 +13,52 @@ namespace ConsolUI
         {
            // CarTest();
            CarManager carManager = new CarManager(new EfCarDal());
-           foreach (var car in carManager.GetCarDetails())
+           var result = carManager.GetCarDetails();
+           foreach (var car in result.Data)
            {
                Console.WriteLine(car.Name+" / "+car.Description+" / "+car.DailyPrice);
            }
         }
 
-        private static void CarTest()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
+        //private static void CarTest()
+        //{
+        //    CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var car in carManager.GetCarsByBrandId(1))
-            {
-                Console.WriteLine("Model : " + car.ModelYear + " Açıklama : " + car.Description + " " + " Fiyat :" +
-                                  car.DailyPrice);
-            }
+        //    foreach (var car in carManager.GetCarsByBrandId(1))
+        //    {
+        //        Console.WriteLine("Model : " + car.ModelYear + " Açıklama : " + car.Description + " " + " Fiyat :" +
+        //                          car.DailyPrice);
+        //    }
 
-            foreach (var car in carManager.GetCarsByColorId(1))
-            {
-                Console.WriteLine("Model : " + car.ModelYear + " Açıklama : " + car.Description + " " + " Fiyat :" +
-                                  car.DailyPrice);
-            }
+        //    foreach (var car in carManager.GetCarsByColorId(1))
+        //    {
+        //        Console.WriteLine("Model : " + car.ModelYear + " Açıklama : " + car.Description + " " + " Fiyat :" +
+        //                          car.DailyPrice);
+        //    }
 
-            try
-            {
-                carManager.Add(new Car() {BrandId = 2, ColorId = 3, DailyPrice = 300, Description = "a", ModelYear = 2019});
+        //    try
+        //    {
+        //        carManager.Add(new Car() {BrandId = 2, ColorId = 3, DailyPrice = 300, Description = "a", ModelYear = 2019});
 
 
-                Console.WriteLine("Araçlar başarıyla eklendi.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        //        Console.WriteLine("Araçlar başarıyla eklendi.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
 
-            try
-            {
-                carManager.Add(new Car()
-                    {BrandId = 5, ColorId = 4, DailyPrice = 150, Description = "Ehliyet yaş sınırı yoktur.", ModelYear = 2000});
+        //    try
+        //    {
+        //        carManager.Add(new Car()
+        //            {BrandId = 5, ColorId = 4, DailyPrice = 150, Description = "Ehliyet yaş sınırı yoktur.", ModelYear = 2000});
 
-                Console.WriteLine("Araçlar başarıyla eklendi.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        //        Console.WriteLine("Araçlar başarıyla eklendi.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
     }
 }

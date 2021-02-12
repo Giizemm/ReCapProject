@@ -18,6 +18,10 @@ namespace Business.Constants
        public static string BrandNameInvalid = "Araba Markası Geçersiz.";
        public static string CarMessage = "Bilgileri Kontrol Ediniz.";
        public static string Listed = "Bilgiler Listelendi.";
-       
-   }
+       public static string Added = "Eklendi";
+        public static string Deleted = "Silindi";
+        public static string Updated = "Güncellendi";
+   
+
+    }
 }
