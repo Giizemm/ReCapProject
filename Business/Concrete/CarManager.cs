@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 
 namespace Business.Concrete
 {
@@ -20,16 +24,11 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice > 0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded);
-            }
-
-            return new ErrorResult(Messages.CarMessage);
-
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
 
         }
 
@@ -41,12 +40,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.Listed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new DataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),true,Messages.Listed);
+            return new DataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), true, Messages.Listed);
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
