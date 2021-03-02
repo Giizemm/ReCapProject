@@ -33,7 +33,7 @@ namespace Core.Utilities.FileHelper
                 }
             }
 
-          //  File.Copy(sourcePath, result);
+          //File.Copy(sourcePath, result);
 
             File.Delete(sourcePath);
 
