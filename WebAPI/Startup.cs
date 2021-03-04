@@ -20,6 +20,8 @@ using Microsoft.IdentityModel.Tokens;
 using Core.Utilities.Security.Encryption;
 using Microsoft.AspNetCore.Http;
 using Core.Utilities.IoC;
+using Core.Extensions;
+using Core.DependencyResolvers;
 
 namespace WebAPI
 {
@@ -66,8 +68,9 @@ namespace WebAPI
                     };
                 });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            ServiceTool.Create(services);
+            services.AddDependencyResolvers(new ICoreModule[] {
+                new CoreModule()
+            });
 
         }
 
