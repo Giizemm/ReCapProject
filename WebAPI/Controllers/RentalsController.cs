@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -14,10 +15,12 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         private IRentalService _rentalService;
+        private ICreditCardService _creditCardService;
 
-        public RentalsController(IRentalService rentalService)
+        public RentalsController(IRentalService rentalService, ICreditCardService creditCardService)
         {
             _rentalService = rentalService;
+            _creditCardService = creditCardService;
         }
 
         [HttpGet("getall")]
@@ -26,9 +29,9 @@ namespace WebAPI.Controllers
             var result = _rentalService.GetAll();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Data);
+            return BadRequest(result);
         }
 
         [HttpGet("CheckReturnDate")]
@@ -42,10 +45,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
-        public IActionResult Add(Rental rental)
+        [HttpGet("getAllWithDetails")]
+        public IActionResult GetAllWithDetail()
         {
-            var result = _rentalService.Add(rental);
+            var result = _rentalService.GetAllWithDetail();
             if (result.Success)
             {
                 return Ok(result);
@@ -53,7 +56,61 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-       
+        [HttpGet("getCarByRentalCarId")]
+        public IActionResult GetCarByRentalCarId(int carId)
+        {
+            var result = _rentalService.GetCarByRentalCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+        //[HttpPost("add")]
+        //public IActionResult Add(RentalWithDetailDto rentalWithDetailDto)
+        //{
+        //    var result = _rentalService.Add(rentalWithDetailDto);
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    return BadRequest(result);
+        //}
+
+
+        [HttpPost("add")]
+        public IActionResult Add(RentalPaymentDto rentalPaymentDto)
+        {
+
+            var result = _rentalService.Add(rentalPaymentDto.Rental);
+            if (result.Success)
+            {
+                var paymentResult = _creditCardService.Add(rentalPaymentDto.CreditCard);
+                if (!paymentResult.Success)
+                {
+                    //return Ok(paymentResult);
+                    return BadRequest(paymentResult.Message);
+                }
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("checkCanRental")]
+        public IActionResult CheckCanRental(int carId, DateTime rentDate, DateTime returnDate)
+        {
+            var result = _rentalService.CheckDate(carId, rentDate, returnDate);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return Ok(result);
+        }
+
+
 
     }
 }

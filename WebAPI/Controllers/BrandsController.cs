@@ -21,15 +21,15 @@ namespace WebAPI.Controllers
             _brandService = brandService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("getAll")]
         public IActionResult Get()
         {
             var result = _brandService.GetAll();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Data);
+            return BadRequest(result);
         }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
@@ -37,9 +37,9 @@ namespace WebAPI.Controllers
             var result = _brandService.GetById(id);
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Data);
+            return BadRequest(result);
         }
 
         [HttpPost("add")]

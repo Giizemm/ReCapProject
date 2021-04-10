@@ -62,27 +62,28 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromForm(Name = "Image")] IFormFile file, [FromForm] CarImage carImage)
         {
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.FileName);
 
-            if (file.Length > 0)
+            if (file != null && file.Length > 0)
             {
+                System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.FileName);
                 var newFileName = Guid.NewGuid() + fileInfo.Extension;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", "images");
+                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "images");
 
 
                 using (var stream = System.IO.File.Create(Path.Combine(filePath, newFileName)))
                 {
                     file.CopyTo(stream);
+                    stream.Flush();
                 }
 
-                carImage.ImagePath = Path.Combine("Uploads", "images") + newFileName;
-                carImage.Date=DateTime.Now;
+                carImage.ImagePath = Path.Combine("uploads", "images", newFileName);
+                carImage.Date = DateTime.Now;
             }
             //var carimage = new CarImage { CarId = carImage.CarId, ImagePath = carImage.ImagePath, Date = DateTime.Now };
             // var result = _carImageService.Add(file, carImage);
 
             var result = _carImageService.Add(carImage);
-            
+
             if (result.Success)
             {
                 return Ok(result);
@@ -100,7 +101,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-       
+
         [HttpPost("update")]
         public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
         {

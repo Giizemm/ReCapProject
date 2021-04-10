@@ -20,15 +20,15 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("getAll")]
         public IActionResult Get()
         {
             var result = _colorService.GetAll();
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Data);
+            return BadRequest(result);
         }
         [HttpGet("getbycolorid")]
         public IActionResult GetByColorId(int id)
@@ -36,9 +36,9 @@ namespace WebAPI.Controllers
             var result = _colorService.GetByColorId(id);
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Data);
+            return BadRequest(result);
         }
 
         [HttpPost("add")]

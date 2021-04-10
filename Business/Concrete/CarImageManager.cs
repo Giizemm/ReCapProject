@@ -30,10 +30,10 @@ namespace Business.Concrete
         {
             IResult result = BusinessRules.Run(CheckIfImageLimit(carImage.CarId));
             if (result != null)
-            { 
+            {
                 return result;
             }
-            
+
             _carImageDal.Add(carImage);
             return new SuccessResult(Messages.ImagesAdded);
         }
@@ -73,7 +73,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImage>> GetByImagesCarId(int id)
         {
-            return new SuccessDataResult<List<CarImage>>(CheckIfCarImageIsEmpty(id), Messages.CarImageListed);
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(x => x.CarId == id), Messages.CarImageListed);
         }
 
 
@@ -86,24 +86,12 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-        private List<CarImage> CheckIfCarImageIsEmpty(int id)
-        {
-            string path = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + @"\Uploads\images\default.jpg");
-            var result = _carImageDal.GetAll(c => c.CarId == id).Any();
 
-            if (!result)
-            {
-                return new List<CarImage> { new CarImage { CarId = id, ImagePath = path, Date = DateTime.Now } };
-            }
-
-            return _carImageDal.GetAll(p => p.CarId == id);
-
-        }
         private IResult CarImageDelete(CarImage carImage)
         {
             try
             {
-               
+
                 File.Delete(carImage.ImagePath);
             }
             catch (Exception exception)
